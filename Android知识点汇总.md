@@ -85,21 +85,33 @@ maximumPoolSize：线程池中最大线程数量
 keepAliveTime：非核心线程的超时时长，当系统中非核心线程闲置时间超过keepAliveTime之后，则会被回收。如果ThreadPoolExecutor的allowCoreThreadTimeOut属性设置为true，则该参数也表              示核心线程的超时时长
    
 unit：第三个参数的单位，有纳秒、微秒、毫秒、秒、分、时、天等
+   
 workQueue：线程池中的任务队列，该队列主要用来存储已经被提交但是尚未执行的任务。存储在这里的任务是由ThreadPoolExecutor的execute方法提交来的。
+   
 threadFactory：线程工厂，为线程池提供创建新线程的功能，这个我们一般使用默认即可
+   
 handler：拒绝策略，当线程无法执行新任务时（一般是由于线程池中的线程数量已经达到最大数或者线程池关闭导致的），默认情况下，当线程池无法处理新线程时，会抛RejectedExecutionException。
 
 这7个参数中，平常最多用到的是corePoolSize、maximumPoolSize、keepAliveTime、unit、workQueue。
+   
 maximumPoolSize(最大线程数) = corePoolSize(核心线程数) +noCorePoolSize(非核心线程数)；
+   
 （1）当currentSize<corePoolSize时，没什么好说的，直接启动一个核心线程并执行任务。
+                                                      
 （2）当currentSize>=corePoolSize、并且workQueue未满时，添加进来的任务会被安排到workQueue中等待执行。
+   
 （3）当workQueue已满，但是currentSize<maximumPoolSize时，会立即开启一个非核心线程来执行任务。
+                                                                  
 （4）当currentSize>=corePoolSize、workQueue已满、并且currentSize>maximumPoolSize时，调用handler默认抛出RejectExecutionExpection异常。
 
 线程池的实现原理：
+   
 提交一个任务到线程池中，线程池的处理流程如下：
+   
 1.判断线程池里的核心线程是否都在执行任务，如果不是（核心线程空闲或者还有核心线程没有被创建）则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。
+   
 2.线程池判断工作队列是否已满，如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。
+   
 3.判断线程池里的线程是否都处于工作状态，如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略来处理这个任务。
    
    
