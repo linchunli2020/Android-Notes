@@ -59,6 +59,8 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 
 如果启动的activity已存在于任务栈的栈顶，那么再启动这个activity不会创建新的实例，而是重用栈顶的那个实例，并且会调用该activity的onNewIntent方法。
 
+（使用场景像是阅读类/新闻类app的内容页）
+
 (1）如果在 AndroidManifest.xml 中将 Activity D 的启动模式设置为 SingleTop 并且任务栈内存在 Activity D 实例且位于栈顶时，当启动 Activity D 时，会复用之前创建的 Activity D 的实例，并且 onNewIntent() 方法被调用。
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/67937122/161176002-eaf21949-bc39-4f90-9c9b-8198e7b9123e.png">
 
@@ -72,6 +74,8 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 
 检查整个任务栈的活动，如果发现已经存在该活动就将位于该活动上方的活动全部出栈，该活动成为新的栈顶。
 
+（使用场景像是浏览器的主页面，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走onNewIntent，并且会清空主页面上面的其它页面）
+
 (1)如果在 AndroidManifest.xml 中将 Activity C 的启动模式设置为 SingleTask，如果此时任务栈内已经存在 Activity C 的实例且未位于栈顶，当启动 Activity C 时，会将 Activity C 上方的实例全部出栈让其位于任务栈顶并 Activity C 中的 onNewIntent() 方法会被调用。
 <img width="689" alt="image" src="https://user-images.githubusercontent.com/67937122/161176270-c158bbc6-1f32-4877-84d5-1ac44d42a03f.png">
 
@@ -81,6 +85,8 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 （四）singleInstance模式：
 
 最特殊的模式，系统为该模式的活动分配一个独立的任务栈，该任务栈有且只有一个该活动实例。也就是说，如果已经创建过目标活动实例，那么将不会创建新的任务栈，而是唤醒之前创建过的活动实例。
+
+(使用场景如闹铃提醒，将闹铃提醒与闹铃设置分离)
 
 以singleInstance模式启动的Activity具有全局唯一性，即整个系统中只会存在一个这样的实例。
 
