@@ -9,7 +9,7 @@
 
 <span id="activity">Activity</span>
 
-<span id="activity_taskAffinity">Activity的任务亲和性</span>
+<span id="activity_taskAffinity"><<<Activity的任务亲和性>>></span>
 
 （一）任务亲和性 ( taskAffinity ) 简介：
 
@@ -45,7 +45,7 @@
 _______________________________________________________________________________________________________________________________________
 
 
-<span id="activity_launchMode">Actvity四种启动模式</span>
+<span id="activity_launchMode"><<<Actvity四种启动模式>>></span>
 
 
 【简介】
