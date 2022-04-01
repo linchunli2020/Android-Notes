@@ -21,30 +21,31 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
   
 2.taskAffinity 介绍：
 
-  2.1 taskAffinity 是 Activity 的一个属性，可在 Manifest 文件中设置。
-  
-  2.2 Task 也有该属性，它的值由第一个入栈的 Activity 决定
-  
-  2.3 Application 也有 taskAffinity 属性，它的值为 Manifest 的包名
-  
-  2.4 默认情况下（没有显示设置 Activity 的 taskAffinity），所有 Activity 的 taskAffinity 属性都从 Application 继承，也就是说所有 Activity 的 taskAffinity 值都相同，为包名。
-  
-  2.5 taskAffinity 的值应该是 xxx.xxx.xxx 这种样式，如果只是普通的字符串 xxx，是安装不了应用的。
+      2.1 taskAffinity 是 Activity 的一个属性，可在 Manifest 文件中设置。
+
+      2.2 Task 也有该属性，它的值由第一个入栈的 Activity 决定
+
+      2.3 Application 也有 taskAffinity 属性，它的值为 Manifest 的包名
+
+      2.4 默认情况下（没有显示设置 Activity 的 taskAffinity），所有 Activity 的 taskAffinity 属性都从 Application 继承，也就是说所有 Activity 的 taskAffinity 值都相同，为包名。
+
+      2.5 taskAffinity 的值应该是 xxx.xxx.xxx 这种样式，如果只是普通的字符串 xxx，是安装不了应用的。
   
 3.如何在代码中获取 Activity 的 taskAffinity 属性值和 Activity 所在 Task：
 
-    // 当前 Activity 的 taskAffinity 属性值 
-    String taskAffinity = "";
-    try {
-        ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(),
-                PackageManager.GET_META_DATA);
-        taskAffinity = activityInfo.taskAffinity;
-    } catch (PackageManager.NameNotFoundException e) {
-        e.printStackTrace();
-    }
+        // 当前 Activity 的 taskAffinity 属性值 
+        String taskAffinity = "";
+        try {
+            ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(),
+                    PackageManager.GET_META_DATA);
+            taskAffinity = activityInfo.taskAffinity;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
-    // 当前 Activity 所在 Task
-    int taskId = getTaskId();
+        // 当前 Activity 所在 Task
+        int taskId = getTaskId();
+
 
 【四种模式】
 
@@ -53,6 +54,7 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 标准启动模式，也是系统默认启动模式。该模式下启动同一个activity，会在栈中产生多个该activity的实例，每个实例都会处理一个intent对象。
 
 如果在 AndroidManifest.xml 中将 Activity B 的启动模式设置为 Standard，不管任务栈内是否已经存在 Activity B 的实例，当启动 Activity B 时，都会创建一个崭新的 Activity B 位于任务栈顶（如下图所示）：
+
 <img width="684" alt="image" src="https://user-images.githubusercontent.com/67937122/161175846-cb590c20-1aaa-47ce-b931-5f6350254d64.png">
 
 （二）singleTop模式：
@@ -62,12 +64,15 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 （使用场景像是阅读类/新闻类app的内容页）
 
 (1）如果在 AndroidManifest.xml 中将 Activity D 的启动模式设置为 SingleTop 并且任务栈内存在 Activity D 实例且位于栈顶时，当启动 Activity D 时，会复用之前创建的 Activity D 的实例，并且 onNewIntent() 方法被调用。
+
 <img width="695" alt="image" src="https://user-images.githubusercontent.com/67937122/161176002-eaf21949-bc39-4f90-9c9b-8198e7b9123e.png">
 
 (2）如果在 AndroidManifest.xml 中将 Activity D 的启动模式设置为 SingleTop 并且任务栈内并不存在 Activity D 的实例时，当启动 Activity D 时，会创建一个崭新的 Activity D 实例在栈顶。
+
 <img width="697" alt="image" src="https://user-images.githubusercontent.com/67937122/161176093-9bd5adb2-6bac-4aa5-846d-e5994fea58fd.png">
 
 (3）如果在 AndroidManifest.xml 中将 Activity D 的启动模式设置为 SingleTop 并且任务栈内存在 Activity D 的实例但其实例未在栈顶时，当启动 Activity D 时，会再次创建一个崭新的 Activity D 实例在栈顶。
+
 <img width="680" alt="image" src="https://user-images.githubusercontent.com/67937122/161176173-cfed8835-5c44-4def-97cd-edd3464e576e.png">
 
 （三）singleTask模式：
@@ -77,9 +82,11 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 （使用场景像是浏览器的主页面，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走onNewIntent，并且会清空主页面上面的其它页面）
 
 (1)如果在 AndroidManifest.xml 中将 Activity C 的启动模式设置为 SingleTask，如果此时任务栈内已经存在 Activity C 的实例且未位于栈顶，当启动 Activity C 时，会将 Activity C 上方的实例全部出栈让其位于任务栈顶并 Activity C 中的 onNewIntent() 方法会被调用。
+
 <img width="689" alt="image" src="https://user-images.githubusercontent.com/67937122/161176270-c158bbc6-1f32-4877-84d5-1ac44d42a03f.png">
 
 (2)如果在 AndroidManifest.xml 中将 Activity C 的启动模式设置为 SingleTask，并且此时任务栈内并不存在 Activity C 的实例，当启动 Activity C 时，会创建一个崭新的 Activity C 实例在栈顶。
+
 <img width="694" alt="image" src="https://user-images.githubusercontent.com/67937122/161176309-d396d77a-60ae-4b2e-9cbe-6952ea7b1697.png">
 
 （四）singleInstance模式：
@@ -95,6 +102,7 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 被singleInstance模式的Activity开启的其他activity，能够开启一个新任务，但不一定开启新的任务，也可能在已有的一个任务中开启。取决于开启的activity的taskAffinity任务是否存在。
 
 如果在 AndroidManifest.xml 中将 Activity E 的启动模式设置为 SingleInstance，并且任务栈内不存在 Activity E 的实例，当启动 Activity E 时，会在创建一个新的任务栈，并且栈内只有 Activity E 一个实例。
+
 <img width="677" alt="image" src="https://user-images.githubusercontent.com/67937122/161176461-915e0a7e-8fd6-4ce5-ada3-c2d0f28ee648.png">
 
 问1:如果此时基于上面的任务栈，从 Activity D 中开启一个启动模式为 Standard 的 Activity F，那任务栈会发生什么样的变化呢？请看下图：
@@ -114,6 +122,10 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 <img width="670" alt="image" src="https://user-images.githubusercontent.com/67937122/161176946-3b5dc7f9-d1bc-4315-b7c9-5f047c941159.png">
 
 因为 singleInstance 的属性是禁止与其他 Activities 共享任务栈，所以启动模式为 SingleInstance 的 Activity 启动其他 Activity 时会默认带有 FLAG_ACTIVITY_NEW_TASK 属性。所以 Activity E 启动 Activity F 后，最后会存在三个任务栈，Activity F 会单独存在于一个任务栈中
+
+
+
+
 
 
 
