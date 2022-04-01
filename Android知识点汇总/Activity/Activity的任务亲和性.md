@@ -1,4 +1,4 @@
-Activity的任务亲和性？(#任务亲和性解释：)
+<span id="jump">Activity的任务亲和性？</span>
 
 
 
@@ -10,7 +10,7 @@ Activity的任务亲和性？(#任务亲和性解释：)
 
 
 
-任务亲和性解释：
+任务亲和性解释：(#jump)
 （一）任务亲和性 ( taskAffinity ) 简介：
 
 ① 亲和性概念 : 任务亲和性 ( taskAffinity ) 是 Activity 的属性 , 用于设置该 Activity 倾向于哪个任务 ;
