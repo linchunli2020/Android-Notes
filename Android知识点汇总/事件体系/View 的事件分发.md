@@ -72,7 +72,7 @@ WIndow的实现类其实是PhoneWIndow，在PhoneVIew中的superDIspatchTouchEve
       源码：
       PhoneWindow#superDispatchTouchEvnent
       public boolean superDispatchTouchEvent(MotionEvent event){
-      return mDecor.superDispatchTouchEvent(event);
+            return mDecor.superDispatchTouchEvent(event);
       }
       
 目前事件传递给了DecorView，由于DecorVIew继承自FragmentLayout且是父VIew，所以最终事件会传递给View。从这里开始，事件已经传递给顶级VIew了。
