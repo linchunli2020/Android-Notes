@@ -3,7 +3,8 @@ android 中的控件在界面上都会占一块巨型区域，主要分为两类
 
 ViewGroup作为父控件可以包含多个View控件，并管理他们，但其也是继承自View。通过Viewgroup，整个控件界面形成了View的控件树，如图1所示。
 
-![view_zuobiao.png](http://upload-images.jianshu.io/upload_images/6983034-a8c1692003ba96fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<img width="421" alt="image" src="https://user-images.githubusercontent.com/67937122/161180348-5a310491-56a2-46b0-8fcc-f07cdee264cf.png">
+
 
 上层控件负责字控件的测量与绘制，并传递交互事件。在Activity 中 通过findViewById()方法，就是以树的 深度优先遍历 查找对应的控件。控件树的顶部都有一个ViewParent 对象，对整个视图进行控制。
 
@@ -76,6 +77,7 @@ TouchSlop 是系统所能识别的最小滑动距离，小于它则视未发生�
         boolean consume = mGestureDetector.onTouchEvent(event);
         return consume;
         GestureDetector 类中的 OnGestureListener 接口和 OnDoubleTapListener 接口相关实现方法说明：
+
 
     <img width="620" alt="image" src="https://user-images.githubusercontent.com/67937122/161180259-7caafb03-8917-40d9-a3d0-83aa50d061aa.png">
 
