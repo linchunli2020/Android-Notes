@@ -1,15 +1,15 @@
 
 [Activity](#activity)
 
-   [Activity的任务亲和性](#activity_taskAffinity)
+         [Activity的任务亲和性](#activity_taskAffinity)
    
-   [Actvity四种启动模式](#activity_launchMode)
+         [Actvity四种启动模式](#activity_launchMode)
    
 
 
-<span id="activity">Activity</span>
+<span id="activity" font_size="20px">Activity</span>
 
-<span id="activity_taskAffinity">Activity的任务亲和性</span>
+<span id="activity_taskAffinity" font_size="20px">Activity的任务亲和性</span>
 
 （一）任务亲和性 ( taskAffinity ) 简介：
 
@@ -42,8 +42,10 @@
 ( 即 : 如果设置亲和性属性 , 那么就要设置成不一样的 , 默认的就不要再显示的设置一遍了)
 
 
+_______________________________________________________________________________________________________________________________________
 
-<span id="activity_launchMode">Actvity四种启动模式</span>
+
+<span id="activity_launchMode" font_size="20px">Actvity四种启动模式</span>
 
 
 【简介】
