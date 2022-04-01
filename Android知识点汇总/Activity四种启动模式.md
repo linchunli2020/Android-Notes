@@ -74,32 +74,47 @@ Activity 有四种不同的启动模式，这四种模式分别是：standard，
 
 (1)如果在 AndroidManifest.xml 中将 Activity C 的启动模式设置为 SingleTask，如果此时任务栈内已经存在 Activity C 的实例且未位于栈顶，当启动 Activity C 时，会将 Activity C 上方的实例全部出栈让其位于任务栈顶并 Activity C 中的 onNewIntent() 方法会被调用。
 <img width="689" alt="image" src="https://user-images.githubusercontent.com/67937122/161176270-c158bbc6-1f32-4877-84d5-1ac44d42a03f.png">
+
 (2)如果在 AndroidManifest.xml 中将 Activity C 的启动模式设置为 SingleTask，并且此时任务栈内并不存在 Activity C 的实例，当启动 Activity C 时，会创建一个崭新的 Activity C 实例在栈顶。
 <img width="694" alt="image" src="https://user-images.githubusercontent.com/67937122/161176309-d396d77a-60ae-4b2e-9cbe-6952ea7b1697.png">
 
 （四）singleInstance模式：
+
 最特殊的模式，系统为该模式的活动分配一个独立的任务栈，该任务栈有且只有一个该活动实例。也就是说，如果已经创建过目标活动实例，那么将不会创建新的任务栈，而是唤醒之前创建过的活动实例。
+
 以singleInstance模式启动的Activity具有全局唯一性，即整个系统中只会存在一个这样的实例。
+
 以singleInstance模式启动的Activity具有独占性，即它会独自占用一个任务，被他开启的任何activity都会运行在其他任务中。
+
 被singleInstance模式的Activity开启的其他activity，能够开启一个新任务，但不一定开启新的任务，也可能在已有的一个任务中开启。取决于开启的activity的taskAffinity任务是否存在。
 
 如果在 AndroidManifest.xml 中将 Activity E 的启动模式设置为 SingleInstance，并且任务栈内不存在 Activity E 的实例，当启动 Activity E 时，会在创建一个新的任务栈，并且栈内只有 Activity E 一个实例。
 <img width="677" alt="image" src="https://user-images.githubusercontent.com/67937122/161176461-915e0a7e-8fd6-4ce5-ada3-c2d0f28ee648.png">
 
 问1:如果此时基于上面的任务栈，从 Activity D 中开启一个启动模式为 Standard 的 Activity F，那任务栈会发生什么样的变化呢？请看下图：
+
 此时 Activity E 依旧会独立的存在于自己的任务栈中，而新创建的 Activity F 将会和 Activity D 位于相同的任务栈的栈顶。
+
 <img width="676" alt="image" src="https://user-images.githubusercontent.com/67937122/161176610-237798c9-5b8d-4992-99f9-1d36228cf451.png">
 
+
 问2:如果启动模式为 SingleInstance 的 Activity E 已经独立存在于自己的任务栈中，此时再启动 Activity E， 则会复用已经创建的 Activity E 的实例，并且 Activity E 的 onNewIntent() 方法被调用。发生的变化如下图所示：
+
 <img width="674" alt="image" src="https://user-images.githubusercontent.com/67937122/161176787-ccb1295c-f298-4010-a3cb-faa6a5103dcd.png">
 
+
 问3:如果基于上面的任务栈，从 Activity E 中开启一个启动模式为 Standard 的 Activity F，那任务栈会发什么样的变化呢，请看下图：
+
 <img width="670" alt="image" src="https://user-images.githubusercontent.com/67937122/161176946-3b5dc7f9-d1bc-4315-b7c9-5f047c941159.png">
+
 因为 singleInstance 的属性是禁止与其他 Activities 共享任务栈，所以启动模式为 SingleInstance 的 Activity 启动其他 Activity 时会默认带有 FLAG_ACTIVITY_NEW_TASK 属性。所以 Activity E 启动 Activity F 后，最后会存在三个任务栈，Activity F 会单独存在于一个任务栈中
 
 
 
 转载：
+
 https://juejin.cn/post/6844903781486821389
+
 https://mrfzh.github.io/2019/09/15/Activity-%E7%9A%84%E5%90%AF%E5%8A%A8%EF%BC%9A%E5%9B%9B%E7%A7%8D%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%8F%8A%E5%90%84%E7%A7%8D-FLAG/
+
 https://www.jianshu.com/p/0a512e390dfa
