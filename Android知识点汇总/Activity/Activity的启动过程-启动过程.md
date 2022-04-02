@@ -1,2 +1,10 @@
 
-加油。。。。
+（1）点击桌面应用图标，Launcher进程会把启动Activity的请求以Binder的方式发送给AMS
+
+（2）AMS接受到请求后，会交给ActivityStarter处理Intent和Flag相关信息，然后交给ActivityStack处理Activity进栈相关流程，并已socket方式请求zygote进程fork新进程
+
+（3）zygote进程接收到创建新进程的请求后，fork出新进程
+
+（4）在新进程中，创建ActivityThread对象，新进程就是应用的主线程，在主线程中开启Looper消息循环，开始创建Activity
+
+（5）ActivityThread通过ClassLoader去加载Activity，创建Activity实例，并回调Activity的oncreate方法，完成Activity的启动。
