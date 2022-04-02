@@ -33,4 +33,6 @@ IntentService 它创建了一个独立的工作线程来处理所有的通过onS
 默认实现的onBind()返回null。
 
 
+参考：
+
 https://www.jianshu.com/p/c0fa9923d44d
