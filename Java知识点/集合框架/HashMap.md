@@ -32,7 +32,8 @@ hashmap1.8 https://blog.51cto.com/u_14153136/3116453
       如果发现Entry是空的，之前没有存值，就直接把值存进去就可以；
       如果Entry有值，即发生了hash碰撞hash冲突，就以单链表头插入的方式存储；
       
-      resize：如何扩容的：
+      resize：
+      如何扩容的：
       创建一个新的Entry数组
       将旧Entry数组中的数据复制到新Entry数组中
       将新数组的引用赋给table
