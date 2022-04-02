@@ -1,6 +1,9 @@
 
 ***Service 启动方式有两种，一种是通过startService()方式进行启动，另一种是通过bindService()方式进行启动。不同的启动方式他们的生命周期是不一样。***
 
+<img width="393" alt="image" src="https://user-images.githubusercontent.com/67937122/161371179-5ba10bdd-3d1c-49ba-92d2-46c391f42881.png">
+
+
 ***（1）startService***
 
 通过startService()这种方式启动的service，生命周期是这样：调用startService() --> onCreate()--> onStartCommand()--> onDestroy()。
