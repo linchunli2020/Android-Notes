@@ -22,6 +22,7 @@ hashmap1.8 https://blog.51cto.com/u_14153136/3116453
       先遍历数组索引下的整条链表
       如果该key之前在hashmap中存储了的话，直接替换当前的value值即可；
       如果该key之前没有在hashmap中存储，则进入addEntry方法
+      
       addEntry方法：
       如果当前容量大于或等于容量阀值，就进行扩容
       扩容为原来容量的2倍
@@ -30,6 +31,7 @@ hashmap1.8 https://blog.51cto.com/u_14153136/3116453
       创建节点（crreateEntry创建节点方法）
       如果发现Entry是空的，之前没有存值，就直接把值存进去就可以；
       如果Entry有值，即发生了hash碰撞hash冲突，就以单链表头插入的方式存储；
+      
       resize：如何扩容的：
       创建一个新的Entry数组
       将旧Entry数组中的数据复制到新Entry数组中
