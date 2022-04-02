@@ -10,6 +10,7 @@ Entry数据的存储规则：key的hash值&（length-1）
 对于查找来说，就需要遍历整个链表了，然后通过key的equals方法逐一比对查找。所以，性能方面考虑，HashMap中的链表出现越少，性能才会越好。
 
 hashmap1.7 https://juejin.cn/post/6844903550917541901
+
 hashmap1.8 https://blog.51cto.com/u_14153136/3116453
 
 ***put方法：***
