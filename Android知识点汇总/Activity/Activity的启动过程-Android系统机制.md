@@ -1,10 +1,5 @@
 Acivity启动过程一直是自己头疼理解的一部分，打算恶补一下。在了解Activity的启动过程前，先了解下Android系统机制的基础知识：
 
-【Launcher进程是什么】
-
-Launcher进程是Android系统启动的第一个应用，也就是我们通常说的手机主页面，它也是异常普通的Android app。
-
-
 【zygote是什么】
 
 zygote意为“受精卵”，在Android进程里，zygote是一个进程的名字。Android是基于Linux系统的，当手机开机的时候，linux的内核加载完成以后就会启动一个叫“init”的进程。在linux中，所有的进程都是由init进程fork出来的，zygote进程也不例外。
@@ -210,6 +205,11 @@ App与AMS通过Binder进行IPC通信，AMS(SystemServer进程)与zygote通过Soc
 AMS除了可以管理Activity之外，Service、BroadcastReceiver和ContentProvider也都和AMS有关联，从这里也可以看出AMS的重要性。
 
 这样说可能还是比较抽象，在Activity机制一章中介绍了AMS与ActivityThread如何一起配合，完成Activity生命周期的调度。
+
+
+【Launcher进程是什么】
+
+Launcher进程是Android系统启动的第一个应用，也就是我们通常说的手机主页面，它也是异常普通的Android app。
 
 
 
