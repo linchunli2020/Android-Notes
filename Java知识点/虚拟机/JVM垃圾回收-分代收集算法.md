@@ -28,9 +28,11 @@
 永久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些class，例如使用反射、动态代理、CGLib等bytecode框架时，
 在这种时候需要设置一个比较大的永久代空间来存放这些运行过程中新增的类。
 
+
 自己写的笔记：
 
-![image](https://user-images.githubusercontent.com/67937122/161372485-b03db0b1-c06a-41a2-8ebf-c2819ee7af50.png)
+<img width="547" alt="image" src="https://user-images.githubusercontent.com/67937122/161372504-abba0283-ac16-49f7-992d-99eea18a7b7c.png">
+
 
 
 参考：https://segmentfault.com/a/1190000023637649
