@@ -119,7 +119,7 @@ Android 不建议在主线程中进行耗时的操作否则会导致程序无法
     使用后者的方式，我认为是集中式的统一管理了所有message，而如果像前者的话，有多少个delaymessage，则需要起多少个定时器。前者由于有了排序，
     而且保存的每个message的执行时间，因此只需一个定时器按顺序next即可。
     
-***Handler postDelayed（） 的原理？***
+***Handler postDelayed（） 的原理***
 
     1、消息是通过MessageQueen中的enqueueMessage()方法加入消息队列中的，并且它在放入中就进行好排序，链表头的延迟时间小，尾部延迟时间最大；
     2、Looper.loop()通过MessageQueue中的next()去取消息；
@@ -147,7 +147,7 @@ Android 中主线程也叫 UI 线程，那么从名字上我们也知道主线�
 然后调用 Message 的 target 对象的 handleMessage()方法。这样就完成了整个消息机制。
 
 
-*** Handler 原理 ***
+***Handler 原理***
 --------------------------------------------------------------------------------
 Handler，Message，looper 和 MessageQueue 构成了安卓的消息机制，handler 创建后可以通过 sendMessage 将消息加入消息队列，然后 looper 不断的将消息从
 MessageQueue 中取出来，回调到 Hander 的 handleMessage 方法，从而实现线程的通信。
@@ -170,7 +170,7 @@ MessageQueue 中取出来，回调到 Hander 的 handleMessage 方法，从而�
 因此 loop 的循环并不会对 CPU 性能有过多的消耗。
 
 
-***为什么不允许在子线程中访问UI呢？***
+***为什么不允许在子线程中访问UI呢***
 --------------------------------------------------------------------------------
 
 这是因为Android的 UI 控件线程不是安全的，如果在多线程情况下并发访问可能会导致UI控件处于不可预期的状态。
@@ -185,7 +185,7 @@ Handler的post方法将一个Runnable投递到Handler内部的Looper中去处理
 最终消息中的Runnable或者Handler的handleMessage方法就会被调用。
 
 
-***handler为什么会导致内存溢出？*** 
+***handler为什么会导致内存溢出*** 
 解决这个问题的思路就是：使用静态内部类并继承handler
 因为静态的内部类不会持有外部类的引用，所以不会导致外部类实例的内存泄漏。当你需要在静态内部类中调用外部的activity时，可以使用弱引用（WeakReference）来处理。
 
