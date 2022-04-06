@@ -190,6 +190,87 @@ Handler的post方法将一个Runnable投递到Handler内部的Looper中去处理
 解决这个问题的思路就是：使用静态内部类并继承handler
 因为静态的内部类不会持有外部类的引用，所以不会导致外部类实例的内存泄漏。当你需要在静态内部类中调用外部的activity时，可以使用弱引用（WeakReference）来处理。
 
+***Handler内存泄漏详解及其解决方案***
+
+***1.Handler内存泄漏例子说明以及原理阐明***
+
+Handler，我们已经相当熟悉了，而且经常用得不亦乐乎，但就是因为太熟悉了，才会偶尔被它反捅一刀，血流不止......还记得我们曾经满怀信心地使用着如下的优美而又简洁的代码不？
+
+<img width="749" alt="image" src="https://user-images.githubusercontent.com/67937122/161888307-fabb70a3-5a56-4a8b-8b3f-4160650f58ba.png">
+
+
+不怕你吓着，实话告诉你，这个代码已经造成内存泄漏了！！！不相信？我们使用Android lint工具检测一下该类的代码：
+
+<img width="748" alt="image" src="https://user-images.githubusercontent.com/67937122/161888325-fe6d74de-5ac3-424a-b9ce-58979d5fa2b4.png">
+
+
+面对现实吧，那为什么会这样呢？**在java中非静态内部类和匿名内部类都会隐式持有当前类的外部引用**，由于Handler是非静态内部类所以其持有当前Activity的隐式引用，如果Handler没有被释放，其所持有的外部引用也就是Activity也不可能被释放，当一个对象一句不需要再使用了，本来该被回收时，而有另外一个正在使用的对象持有它的引用从而导致它不能被回收，这导致本该被回收的对象不能被回收而停留在堆内存中，这就产生了内存泄漏(上面的例子就是这个原因)。最终也就造成了OOM.......我们再来段清晰的代码，我们来使用mHandler发送一个延迟消息：
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/67937122/161888401-78df0275-b3f2-4238-a657-fb8b2590796f.png">
+
+
+分析：当我们执行了HandlerActivity的界面时，被延迟的消息会在被处理之前存在于主线程消息队列中5分钟，而这个消息中又包含了Handler的引用，而我们创建的Handler又是一个匿名内部类的实例，其持有外部HandlerActivity的引用，这将导致了HandlerActivity无法回收，进行导致HandlerActivity持有的很多资源都无法回收，从而就造成了传说中的内存泄露问题！
+
+***2.Handler内存泄漏解决方法***
+
+解决这个问题思路就是使用静态内部类并继承Handler时（或者也可以单独存放成一个类文件）。因为静态的内部类不会持有外部类的引用，所以不会导致外部类实例的内存泄露。当你需要在静态内部类中调用外部的Activity时，我们可以使用弱引用来处理。另外关于同样也需要将Runnable设置为静态的成员属性。修改后不会导致内存泄露的代码如下：
+
+
+                  package com.zejian.handlerlooper;
+                  import android.app.Activity;
+                  import android.os.Bundle;
+                  import android.os.Handler;
+                  import android.os.Message;
+                  import java.lang.ref.WeakReference;
+                  /**
+                   * Created by zejian on 16/3/6.
+                   */
+                  public class HandlerActivity extends Activity {
+                      //创建一个2M大小的int数组
+                      int[] datas=new int[1024*1024*2];
+                  //    Handler mHandler = new Handler(){
+                  //        @Override
+                  //        public void handleMessage(Message msg) {
+                  //            super.handleMessage(msg);
+                  //        }
+                  //    };
+                      /**
+                       * 创建静态内部类
+                       */
+                      private static class MyHandler extends Handler{
+                          //持有弱引用HandlerActivity,GC回收时会被回收掉.
+                          private final WeakReference<HandlerActivity> mActivty;
+                          public MyHandler(HandlerActivity activity){
+                              mActivty =new WeakReference<HandlerActivity>(activity);
+                          }
+                          @Override
+                          public void handleMessage(Message msg) {
+                              HandlerActivity activity=mActivty.get();
+                              super.handleMessage(msg);
+                              if(activity!=null){
+                                  //执行业务逻辑
+                              }
+                          }
+                      }
+                      private static final Runnable myRunnable = new Runnable() {
+                          @Override
+                          public void run() {
+                              //执行我们的业务逻辑
+                          }
+                      };
+                      @Override
+                      protected void onCreate(Bundle savedInstanceState) {
+                          super.onCreate(savedInstanceState);
+                          setContentView(R.layout.activity_handler_leak);
+                          MyHandler myHandler=new MyHandler(this);
+                          //解决了内存泄漏,延迟5分钟后发送
+                          myHandler.postDelayed(myRunnable, 1000 * 60 * 5);
+                      }
+                  }
+                  
+                  
+Handler的内存泄漏问题到此分析解决完成。其实产生内存泄漏的还有好几种情况，比如多线程造成的内存泄漏，静态变量造成的内存泄漏，单例模式造成的内存泄漏等等。
+
 参考：https://blog.csdn.net/javazejian/article/details/50839443
 
 
