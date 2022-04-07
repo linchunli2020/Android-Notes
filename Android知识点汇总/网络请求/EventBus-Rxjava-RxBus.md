@@ -12,7 +12,13 @@
     
 第一步：创建一个事件，说白了就是创建一个类，也就是用来传递的东西，消息，类似bean，比如第二步的EventMessage类；
 
-第二步：在需要订阅事件的模块中，注册eventbus，在需要接受事件的类中进行好register之后，需要在该类中创建一个方法来接收事件消息，如下。在不用的时候千万别忘了unregister。
+第二步：在需要订阅事件的模块中，注册Eventbus，在需要接受事件的类中进行好register之后，需要在该类中创建一个方法来接收事件消息，如下。在不用的时候千万别忘了unregister。
+    
+    //在oncreate()中注册EventBus
+    EventBus.getDefault().register(this)
+    
+    //在onDestroy()中注销EventBus
+    EventBus.getDefault().unregister(this)
 
 <img width="507" alt="image" src="https://user-images.githubusercontent.com/67937122/162134596-16412455-ec87-44f5-b3f8-4ae9e52cc786.png">
 
