@@ -55,7 +55,8 @@ Observable和Observer通过subscribe()方法实现订阅关系，从而Observabl
 <img width="292" alt="image" src="https://user-images.githubusercontent.com/67937122/162135047-2148559a-ce0a-4083-9594-16352c66e0d8.png">
 
     注意：在 RxJava 的默认规则中，事件的发出和消费都是在同一个线程的。也就是说，如果只用上面的方法，实现出来的只是一个同步的观察者模式。
-    观察者模式本身的目的就是『后台处理，前台回调』的异步机制，因此异步对于 RxJava 是至关重要的。而要实现异步，则需要用到 RxJava 的另一个概念： Scheduler 。
+    观察者模式本身的目的就是『后台处理，前台回调』的异步机制，因此异步对于 RxJava 是至关重要的。
+    而要实现异步，则需要用到 RxJava 的另一个概念： Scheduler 。
 
 <img width="559" alt="image" src="https://user-images.githubusercontent.com/67937122/162135219-c262bba7-a7eb-4ef8-8c97-920540aefbb7.png">
 
@@ -99,8 +100,8 @@ rxSbscription是Sbscriptio的对象，我们这里把RxBus.getInstance().toObser
 
 ***（4）RxBus和EventBus区别是什么？***
 
-RxJava 主要做异步、网络的数据处理，强大之处就是对数据的处理了，而对于处理完后的数据处理是一样的都是观察者模式来通知，也可以把 RxJava 进一步封装出一个 EventBus（RxBus）库，
-二者可以转换的。
+RxJava 主要做异步、网络的数据处理，强大之处就是对数据的处理了，而对于处理完后的数据处理是一样的都是观察者模式来通知，
+也可以把 RxJava 进一步封装出一个 EventBus（RxBus）库，二者可以转换的。
 EventBus比较适合仅仅当做组件间的通讯工具使用，主要用来传递消息。使用EventBus可以避免搞出一大推的interface，仅仅是为了实现组件间的通讯，而不得不去实现那一推的接口。
 
 原文链接：https://blog.csdn.net/WLX10428/article/details/104403590
