@@ -4,7 +4,8 @@ UI***自定义View的绘制主要有五个方法：onMeasure()，onLayout(), onD
         
         2.绘制流程：onMeasure（测量）——》onLayout（布局）——》onDraw（绘制）。
         
-        3.绘制按照视图树的顺序执行，视图绘制时会先绘制子控件。如果视图的背景可见，视图会在调用onDraw()之前调用drawBackGround()绘制背景。强制重绘，可以使用invalidate();
+        3.绘制按照视图树的顺序执行，视图绘制时会先绘制子控件。如果视图的背景可见，视图会在调用onDraw()之前调用drawBackGround()绘制背景。
+          强制重绘，可以使用invalidate();
         
         4.如果发生视图的尺寸变化，则该视图会调用requestLayou()，向父控件请求再次布局。如果发生视图的外观变化，则该视图会调用invalidate()，强制重绘。
           如果requestLayout()或invalidate()有一个被调用，框架会对视图树进行相关的测量、布局和绘制。
@@ -13,7 +14,8 @@ UI***自定义View的绘制主要有五个方法：onMeasure()，onLayout(), onD
         5.onLayout()：对于View来说，onLayout()只是一个空实现；而对于ViewGroup来说，onLayout()使用了关键字abstract的修饰，要求其子类必须重载该方法，
           目的就是安排其children在父视图的具体位置。
           
-        6.draw过程：drawBackground()绘制背景——》onDraw()对View的内容进行绘制——》dispatchDraw()对当前View的所有子View进行绘制——》onDrawScrollBars()对View的滚动条进行绘制。
+        6.draw过程：drawBackground()绘制背景——> onDraw()对View的内容进行绘制——> dispatchDraw()对当前View的所有子View进行绘制
+          ——> onDrawScrollBars()对View的滚动条进行绘制。
  
  <img width="472" alt="image" src="https://user-images.githubusercontent.com/67937122/162101922-de4f01df-3286-4527-b6b2-7bb902249a14.png">
 
