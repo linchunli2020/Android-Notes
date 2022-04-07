@@ -7,7 +7,7 @@ UI***自定义View的绘制主要有五个方法：onMeasure()，onLayout(), onD
         3.绘制按照视图树的顺序执行，视图绘制时会先绘制子控件。如果视图的背景可见，视图会在调用onDraw()之前调用drawBackGround()绘制背景。
           强制重绘，可以使用invalidate();
         
-        4.如果发生视图的尺寸变化，则该视图会调用requestLayou()，向父控件请求再次布局。如果发生视图的外观变化，则该视图会调用invalidate()，强制重绘。
+        4.如果发生视图的尺寸变化，则该视图会调用requestLayout()，向父控件请求再次布局。如果发生视图的外观变化，则该视图会调用invalidate()，强制重绘。
           如果requestLayout()或invalidate()有一个被调用，框架会对视图树进行相关的测量、布局和绘制。
           注意：视图树是单线程操作，直接调用其它视图的方法必须要在UI线程里。跨线程的操作必须使用Handler。
         
