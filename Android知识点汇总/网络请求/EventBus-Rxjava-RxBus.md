@@ -10,7 +10,7 @@
     事件（Event）——> EventBus 的post方法，传入的类型。
     publisher（发布者）——> EventBus的post方法。
     
-第一步：创建一个事件，说白了就是创建一个类，也就是用来传递的东西，消息，类似bean，比如第二步的EvenMessage类；
+第一步：创建一个事件，说白了就是创建一个类，也就是用来传递的东西，消息，类似bean，比如第二步的EventMessage类；
 
 第二步：在需要订阅事件的模块中，注册eventbus，在需要接受事件的类中进行好register之后，需要在该类中创建一个方法来接收事件消息，如下。在不用的时候千万别忘了unregister。
 
