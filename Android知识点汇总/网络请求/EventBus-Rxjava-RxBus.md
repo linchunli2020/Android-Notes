@@ -1,4 +1,4 @@
-***(1)Evenbus***
+***（1）Evenbus***
 
 定义：一个发布 / 订阅的事件总线，是一个开源库；
 
@@ -27,7 +27,7 @@
 
 <img width="560" alt="image" src="https://user-images.githubusercontent.com/67937122/162134619-224a5331-11d2-483e-809c-e95f812c9469.png">
 
-***(2)Rxjava***
+***（2）Rxjava***
 
 定义：实现异步操作的开源库；
 
@@ -60,7 +60,7 @@ Observable和Observer通过subscribe()方法实现订阅关系，从而Observabl
 <img width="559" alt="image" src="https://user-images.githubusercontent.com/67937122/162135219-c262bba7-a7eb-4ef8-8c97-920540aefbb7.png">
 
 
-***(3)RxBus***
+***（3）RxBus***
 
 定义：一种模式，但它不是一个库，由Rxjava封装而来；
 
@@ -97,8 +97,8 @@ rxSbscription是Sbscriptio的对象，我们这里把RxBus.getInstance().toObser
 <img width="306" alt="image" src="https://user-images.githubusercontent.com/67937122/162135608-8f8379ec-8c85-4aac-8fc6-aa6e5622024c.png">
 
 
+***（4）RxBus和EventBus区别是什么？***
 
-***(4)RxBus和EventBus区别是什么？***
 RxJava 主要做异步、网络的数据处理，强大之处就是对数据的处理了，而对于处理完后的数据处理是一样的都是观察者模式来通知，也可以把 RxJava 进一步封装出一个 EventBus（RxBus）库，
 二者可以转换的。
 EventBus比较适合仅仅当做组件间的通讯工具使用，主要用来传递消息。使用EventBus可以避免搞出一大推的interface，仅仅是为了实现组件间的通讯，而不得不去实现那一推的接口。
