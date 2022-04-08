@@ -93,7 +93,7 @@ Glide检查开启内存缓存后，如果开启了，先去activeResources中进
 
 这里，我们从最直接的使用角度进行解释：
 
-    1. Glide.with(context)创建RequestManager 
+**1. Glide.with(context)创建RequestManager**
 
 RequestManager负责管理当前context的所有Request
 
@@ -103,7 +103,7 @@ Context可以传Fragment、Activity或者其他Context，当传Fragment、Activi
 
 RequestManager用来跟踪众多当前页面的Request的是RequestTracker类，**用弱引用来保存运行中的Request，用强引用来保存暂停需要恢复的Request。**
 
-    2. Glide.with(context).load(url)创建需要的Request 
+**2. Glide.with(context).load(url)创建需要的Request**
 
 通常是DrawableTypeRequest，后面可以添加transform、fitCenter、animate、placeholder、error、override、skipMemoryCache、signature等等
 
@@ -111,7 +111,7 @@ RequestManager用来跟踪众多当前页面的Request的是RequestTracker类，
 
 **Request是Glide加载图片的执行单位**
 
-    3. Glide.with(context).load(url).into(imageview) 
+**3. Glide.with(context).load(url).into(imageview)**
 
 在Request的into方法中会调用Request的begin方法开始执行
 
@@ -200,26 +200,26 @@ RequestManager用来跟踪众多当前页面的Request的是RequestTracker类，
 
 ***4.动态URL与Glide缓存机制冲突问题***
 
-    这个问题我直接把参看博客截图放上来把：
+这个问题我直接把参看博客截图放上来把：
     
-    <img width="665" alt="image" src="https://user-images.githubusercontent.com/67937122/162382685-e68b6f16-fae2-4cc6-8145-e6668a398f32.png">
+<img width="665" alt="image" src="https://user-images.githubusercontent.com/67937122/162382685-e68b6f16-fae2-4cc6-8145-e6668a398f32.png">
 
-    Glide对于一个图片会通过图片资源的多项信息，通过本身算法得到一个key，这个key就是Glide作为对图片资源的唯一性标识，其中一个参数就是图片的URL。
+Glide对于一个图片会通过图片资源的多项信息，通过本身算法得到一个key，这个key就是Glide作为对图片资源的唯一性标识，其中一个参数就是图片的URL。
     
-    由此可见，当我们的URL发生变化的时候，对应的key也会发生变化。这样子就会造成上图所述的问题，获取key的因素在上头我们已经说了，就不赘述了。
-    
-
-    也因此在对应的model（就是我们的请求资源），我们需要在GlideUrl类中修改对应的getCacheKey方法去修改key生成规则。
+由此可见，当我们的URL发生变化的时候，对应的key也会发生变化。这样子就会造成上图所述的问题，获取key的因素在上头我们已经说了，就不赘述了。
     
 
-    这里说明一下，本人自定义了一个本地的GlideUrl子类，重定义了方法体getCacheKey，在其中设置了断点A；
-    同时在资源获取的地方Engine类的load方法体，第171行获取生成的缓存key中设置断点B。
-
-    在进行调试跟踪的时候，断点是先进行了B，但是结果却是经过getCacheKey方法改造后的url。
-    虽然本人不知道内部是如何实现的，但是可知的是在生成缓存key时候得到的model，是已经通过GlideUrl对象的处理过的了。这也就保证了，自定义GlideUrl修复动态Url的可行性。
+也因此在对应的model（就是我们的请求资源），我们需要在GlideUrl类中修改对应的getCacheKey方法去修改key生成规则。
     
-    由于我们一般不会将源码下载到本地，所以无法直接修改Glide的源码。因此我们可以新建一个继承于GlideUrl的子类——MyGlideUrl类，在
-    MyGlideUrl里重写getCacheKey方法，最后在Glide请求里面采用MyGlideUrl，如下：
+
+自定义一个本地的GlideUrl子类，重定义了方法体getCacheKey，在其中设置了断点A；
+同时在资源获取的地方Engine类的load方法体，第171行获取生成的缓存key中设置断点B。
+
+在进行调试跟踪的时候，断点是先进行了B，但是结果却是经过getCacheKey方法改造后的url。
+虽然本人不知道内部是如何实现的，但是可知的是在生成缓存key时候得到的model，是已经通过GlideUrl对象的处理过的了。这也就保证了，自定义GlideUrl修复动态Url的可行性。
+    
+由于我们一般不会将源码下载到本地，所以无法直接修改Glide的源码。因此我们可以新建一个继承于GlideUrl的子类——MyGlideUrl类，在
+MyGlideUrl里重写getCacheKey方法，最后在Glide请求里面采用MyGlideUrl，如下：
 
         Glide.with(this)
 
