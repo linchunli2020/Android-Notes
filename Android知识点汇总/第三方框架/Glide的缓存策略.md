@@ -69,7 +69,7 @@ Glide检查开启内存缓存后，如果开启了，先去activeResources中进
     这里的内部回收过程是这样的：首先会将缓存图片从activeResources中移除，然后再将它put到LruResourceCache当中。
     这样也就实现了正在使用中的图片使用弱引用来进行缓存，不在使用中的图片使用LruCache来进行缓存的功能。源码如下：
     
-    <img width="666" alt="image" src="https://user-images.githubusercontent.com/67937122/162376895-8f059d71-8579-4bf9-9d57-d60053952f44.png">
+<img width="666" alt="image" src="https://user-images.githubusercontent.com/67937122/162376895-8f059d71-8579-4bf9-9d57-d60053952f44.png">
 
 
 ***1.3 硬盘缓存***
