@@ -212,21 +212,94 @@ Glide对于一个图片会通过图片资源的多项信息，通过本身算法
 也因此在对应的model（就是我们的请求资源），我们需要在GlideUrl类中修改对应的getCacheKey方法去修改key生成规则。
     
 
-自定义一个本地的GlideUrl子类，重定义了方法体getCacheKey，在其中设置了断点A；
-同时在资源获取的地方Engine类的load方法体，第171行获取生成的缓存key中设置断点B。
+接下来我们就要看一下GlideUrl的getCacheKey()方法的源码了，如下所示：
 
-在进行调试跟踪的时候，断点是先进行了B，但是结果却是经过getCacheKey方法改造后的url。
-虽然本人不知道内部是如何实现的，但是可知的是在生成缓存key时候得到的model，是已经通过GlideUrl对象的处理过的了。这也就保证了，自定义GlideUrl修复动态Url的可行性。
-    
-由于我们一般不会将源码下载到本地，所以无法直接修改Glide的源码。因此我们可以新建一个继承于GlideUrl的子类——MyGlideUrl类，在
-MyGlideUrl里重写getCacheKey方法，最后在Glide请求里面采用MyGlideUrl，如下：
+        public class GlideUrl {
 
-        Glide.with(this)
+            private final URL url;
+            private final String stringUrl;
+            ...
 
-                 .load(new MyGlideUrl(url))
+            public GlideUrl(URL url) {
+                this(url, Headers.DEFAULT);
+            }
 
-                 .into(imageView);
+            public GlideUrl(String url) {
+                this(url, Headers.DEFAULT);
+            }
 
+            public GlideUrl(URL url, Headers headers) {
+                ...
+                this.url = url;
+                stringUrl = null;
+            }
+
+            public GlideUrl(String url, Headers headers) {
+                ...
+                this.stringUrl = url;
+                this.url = null;
+            }
+
+            public String getCacheKey() {
+                return stringUrl != null ? stringUrl : url.toString();
+            }
+
+            ...
+        }
+        
+这里我将代码稍微进行了一点简化，这样看上去更加简单明了。
+GlideUrl类的构造函数接收两种类型的参数，一种是url字符串，一种是URL对象。
+然后getCacheKey()方法中的判断逻辑非常简单，如果传入的是url字符串，那么就直接返回这个字符串本身，如果传入的是URL对象，那么就返回这个对象toString()后的结果。
+
+其实看到这里，我相信大家已经猜到解决方案了，因为getCacheKey()方法中的逻辑太直白了，直接就是将图片的url地址进行返回来作为缓存Key的。
+那么其实我们只需要重写这个getCacheKey()方法，加入一些自己的逻辑判断，就能轻松解决掉刚才的问题了。
+
+创建一个MyGlideUrl继承自GlideUrl，代码如下所示：
+
+        public class MyGlideUrl extends GlideUrl {
+
+            private String mUrl;
+
+            public MyGlideUrl(String url) {
+                super(url);
+                mUrl = url;
+            }
+
+            @Override
+            public String getCacheKey() {
+                return mUrl.replace(findTokenParam(), "");
+            }
+
+            private String findTokenParam() {
+                String tokenParam = "";
+                int tokenKeyIndex = mUrl.indexOf("?token=") >= 0 ? mUrl.indexOf("?token=") : mUrl.indexOf("&token=");
+                if (tokenKeyIndex != -1) {
+                    int nextAndIndex = mUrl.indexOf("&", tokenKeyIndex + 1);
+                    if (nextAndIndex != -1) {
+                        tokenParam = mUrl.substring(tokenKeyIndex + 1, nextAndIndex + 1);
+                    } else {
+                        tokenParam = mUrl.substring(tokenKeyIndex);
+                    }
+                }
+                return tokenParam;
+            }
+
+        }
+
+可以看到，这里我们重写了getCacheKey()方法，在里面加入了一段逻辑用于将图片url地址中token参数的这一部分移除掉。
+这样getCacheKey()方法得到的就是一个没有token参数的url地址，从而不管token怎么变化，最终Glide的缓存Key都是固定不变的了。
+
+当然，定义好了MyGlideUrl，我们还得使用它才行，将加载图片的代码改成如下方式即可：
+
+        Glide.with(this)
+             .load(new MyGlideUrl(url))
+             .into(imageView);
+
+也就是说，我们需要在load()方法中传入这个自定义的MyGlideUrl对象，而不能再像之前那样直接传入url字符串了。
+不然的话Glide在内部还是会使用原始的GlideUrl类，而不是我们自定义的MyGlideUrl类。
+
+
+“解决Glide生成缓存Key问题”具体解决可参考链接：https://blog.csdn.net/huangxiaoguo1/article/details/78554107
 
 链接：https://www.jianshu.com/p/78ad4ce1694e
 
