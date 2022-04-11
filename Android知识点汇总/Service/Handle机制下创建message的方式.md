@@ -2,17 +2,38 @@
 
 我们常用的创建Message对象的方式有如下三种:
 
-<img width="546" alt="image" src="https://user-images.githubusercontent.com/67937122/162691632-bc96f349-8869-415f-bf69-af4298e6386d.png">
+	方式1、Message message = new Message();
+	方式2、Message message = Message.obtain();
+	方式3、Message message = new Handler().obtainMessage();
+
 
 **其中方式1，是我们最常用的方式，通过Message的无参构造函数创建一个Message对象：**
 
-<img width="271" alt="image" src="https://user-images.githubusercontent.com/67937122/162691693-226c931b-1627-460d-9f16-580eca9c495b.png">
+      public Message() {
+      }
+
 
 这个没什么好说的，我们每new一次，就会在内存中创建一个Message对象。
 
 **方式2，Message.obtain()及其系列的重载方法，我们先看看他的无参方法的源码实现：**
 
-<img width="850" alt="image" src="https://user-images.githubusercontent.com/67937122/162691796-db90510d-b088-4a44-b1be-b5e75c798b52.png">
+    public static Message obtain() {
+    	//sPoolSync参数是一个Object对象，用来同步保证线程安全。
+        synchronized (sPoolSync) {
+        	sPool是就是handler.dispatchMessage()方法执行后，通过recycleUnchecked回收用以复用的Message
+            if (sPool != null) {
+                Message m = sPool;//直接从本地获取一个message对象
+                sPool = m.next;
+                m.next = null;
+                m.flags = 0; // clear in-use flag
+                //每调用一次该方法，就将新的message对象加入Message池子，sPoolSize就减少一个
+                sPoolSize--;
+                return m;
+            }
+        }
+        return new Message();
+    }
+    
 
 sPoolSync参数是一个Object对象，用来同步保证线程安全。sPool是一个Message 对象，sPoolSize是一个整体上控制Message对象数量的参数，防止通过该方法创建的Message对象过多。
 另外，与之相关联的方法还有以下几个方法：
