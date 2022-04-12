@@ -1,4 +1,4 @@
-***SharedPreferences  commit 和 apply 方法的区别？***
+***（一）SharedPreferences  commit 和 apply 方法的区别？***
 
 1、commit 和 apply 虽然都是原子性操作，但是原子的操作不同，commit 是原子提交到数据库，所以从提交数据到存在Disk中都是同步过程，中间不可打断。
 
@@ -13,7 +13,7 @@
   
   
   
-***SharePreferences特点：***
+***（二）SharePreferences特点：***
 
 1.SharePreferences 是线程安全的 里面的方法有大量的synchronized来保障。
 
@@ -39,7 +39,7 @@
 无法监听值的改变，希望后续能够完善。
 
 
-***mmkv和SharePreference对比：***
+***（三）mmkv和SharePreference对比：***
 
 **SharedPreferences存在的问题**
 
