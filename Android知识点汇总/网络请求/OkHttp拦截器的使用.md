@@ -148,7 +148,7 @@ Call login(@Header("token") String token, @Field("mobile") String phoneNumber, @
 
                       RequestBody body = request.body();
 
-                      if (body instanceof FormBody) {undefined
+                      if (body instanceof FormBody) {
 
                       FormBody formBody = (FormBody) body;
 
@@ -156,7 +156,7 @@ Call login(@Header("token") String token, @Field("mobile") String phoneNumber, @
 
                       // 从 formBody 中拿到请求参数，放入 formMap 中
 
-                      for (int i = 0; i < formBody.size(); i++) {undefined
+                      for (int i = 0; i < formBody.size(); i++) {
 
                       formMap.put(formBody.name(i), formBody.value(i));
 
@@ -177,7 +177,7 @@ Call login(@Header("token") String token, @Field("mobile") String phoneNumber, @
 
                       // 若请求体不为Null，从新构建post请求，并传入修改后的参数体
 
-                      if (body != null) {undefined
+                      if (body != null) {
 
                       request = request.newBuilder().post(body).build();
 
