@@ -76,11 +76,37 @@ ViewGroup及其派生类具有的方法，用于直接绘制具体的子View。�
      
   ● 尽量不要在View中使用Handler，View中已经提供了post系列方法，完全可以替代Handler的作用。
 
+
+***自定义view同时触发onTouch onClick解决方案***
+
+onTouch的return值为true时不能响应onClick事件，设置为false后，就会同时触发两个事件，然后就在网上找解决办法，
+
+有的说记录坐标，根据结束坐标的位置和开始位置的差值来判断，有的说用什么线程来判断。最后在技术群里一个朋友给出了思路，然后成功解决了。
+
+办法其实很简单：
+
+定义一个boolean的 全局变量isMove= false，
+
+然后在onTouch方法里的MotionEvent.ACTION_MOVE:里边设置isMove =true;
+
+在MotionEvent.ACTION_UP:判断isMove的值 
+
+        if (isMove == false) {
+           //对click事件的处理} 
+        else if (isMove == true){
+           //对onTouch事件的处理，我仅仅是更新坐标
+        } 
+        
+记得一定要设置在break之前再次设置isMove =false;
       
       
  转载：
  https://blog.csdn.net/qq941263013/article/details/82500145
  
  https://juejin.cn/post/6844903648758071309
+ 
+ https://www.cxyzjd.com/article/weixin_40417131/79699135
+ 
+https://juejin.cn/post/6844904013763182605
 
  
