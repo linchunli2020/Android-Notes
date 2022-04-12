@@ -1,0 +1,8 @@
+（1）RelativeLayout慢于LinearLayout是因为它会让子View调用2次measure过程，而LinearLayout只需一次，但是有weight属性存在时，LinearLayout也需要两次measure。
+
+（2）RelativeLayout的子View如果高度和RelativeLayout不同，会导致RelativeLayout在onMeasure()方法中做横向测量时，纵向的测量结果尚未完成，
+    只好暂时使用自己的高度传入子View系统。而父View给子View传入的值也没有变化就不会做无谓的测量的优化会失效，解决办法就是可以使用padding代替margin以优化此问题。
+
+（3）在不响应层级深度的情况下，使用Linearlayout而不是RelativeLayout。
+
+链接：https://www.jianshu.com/p/b6767e382368
