@@ -68,9 +68,13 @@ MMKV加密方式AES CFB-128来加密／解密
 AES的工作模式，体现在把明文块加密成密文块的处理过程中。
 
   ● ECB模式：电码本模式 Electronic Codebook Book（默认）
+  
   ● CBC模式：密码分组链接模式 Cipher Block Chaining
+  
   ● CTR模式：计算器模式 Counter
+  
   ● CFB模式：密码反馈模式 Cipher FeedBack
+  
   ● OFB模式：输出反馈模式 Output FeedBack
 
 
