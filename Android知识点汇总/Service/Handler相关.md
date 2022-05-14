@@ -98,7 +98,8 @@ Android 不建议在主线程中进行耗时的操作否则会导致程序无法
     这里提到的 Message，其实就是一个Bean 对象，里面的属性用来记录 Message 的各种信息。
     然后，是这个 Looper，Looper 是一个循环器，它可以循环的取出 MessageQueen 中的 Message，其内部提供了 Looper 的初始化和循环出去Message 的方法，
     即 prepare() 方法和 loop() 方法。在 prepare()方法中，Looper会关联一个 MessageQueen，而且将 Looper 存进一个 ThreadLocal 中，
-    在loop()方法中，通过 ThreadLocal 取出 Looper，使用MessageQueen 的next() 方法取出 Message 后，判断 Message 是否为空，如果是则 Looper 阻塞，如果不是，则通过 dispatchMessage() 方法分发该 Message 到 Handler 中，而 Handler 执行 handlerMessage() 方法，由于 handlerMessage() 方法是个空方法，
+    在loop()方法中，通过 ThreadLocal 取出 Looper，使用MessageQueen 的next() 方法取出 Message 后，判断 Message 是否为空，如果是则 Looper 阻塞，
+    如果不是，则通过 dispatchMessage() 方法分发该 Message 到 Handler 中，而 Handler 执行 handlerMessage() 方法，由于 handlerMessage() 方法是个空方法，
     这也是为什么需要在 Handler 中重写 handlerMessage()方法的原因。
     这里要注意的是Looper 只能在一个线程中只能存在一个。
     这里提到的ThreadLocal，其实就是一个对象，用来在不同线程中存放对应线程的 Looper。
