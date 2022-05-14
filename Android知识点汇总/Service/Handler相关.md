@@ -117,7 +117,8 @@ Android 不建议在主线程中进行耗时的操作否则会导致程序无法
 
     1. postDelay()一个10秒钟的Runnable A、消息进队，MessageQueue调用nativePollOnce()阻塞，Looper阻塞；
     2. 紧接着post()一个Runnable B、消息进队，判断现在A时间还没到、正在阻塞，把B插入消息队列的头部（A的前面），然后调用nativeWake()方法唤醒线程；
-    3. MessageQueue.next()方法被唤醒后，重新开始读取消息链表，第一个消息B无延时，直接返回给Looper； 4. Looper处理完这个消息再次调用next()方法，MessageQueue继续
+    3. MessageQueue.next()方法被唤醒后，重新开始读取消息链表，第一个消息B无延时，直接返回给Looper； 
+    4. Looper处理完这个消息再次调用next()方法，MessageQueue继续
        读取消息链表，第二个消息A还没到时间，计算一下剩余时间（假如还剩9秒）继续调用nativePollOnce()阻塞；
     5. 直到阻塞时间到或者下一次有Message进队；
     这样，基本上就能保证Handler.postDelayed()发布的消息能在相对精
