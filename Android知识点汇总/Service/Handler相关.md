@@ -48,32 +48,42 @@ Android的消息机制主要是指 Handler 的运行机制，Handler的运行机
 
 ***主线程（UI 线程）***
     定义：当程序第一次启动时，Android 会同时启动一条主线程（Main Thread）
+    
     作用：主线程主要负责处理与 UI 相关的事件
 
 ***Message（消息）***
     定义：Handler 接收和处理的消息对象（Bean 对象）
+    
     作用：通信时相关信息的存放和传递
 
 ***MessageQueue（消息队列）***
     定义：是指消息队列，它的内部存储了一组信息，以队列的形式对外提供插入和删除的工作。虽然叫做消息队列，但是它的内部存储结构不是真正的队列，而是采用单链表的数据结构来存储消息队列。
+    
     作用：用来存放通过 Handler 发过来的 Message，按照先进先出执行
 
 ***Handler（处理者）***
     定义：Message 的主要处理者,创建的时候会采用当前线程的 Looper 来构造消息循环系统，那么 Handler 内部通过 ThreadLocal 获取到当前线程的 Looper。
+    
     作用：
+    
         负责发送 Message 到消息队列
+        
         处理 Looper 分派过来的 Message
 
 ***Looper（循环器）***
     定义：扮演 MessageQueue 和 Handler 之间桥梁的角色。
          Looper是指消息循环，每个线程只能有一个Looper，由于MessageQueen只是一个消息的存储单元，它不能去处理消息，而 Looper 填补了这个功能，Looper会以无限循环的形式去
          查找是否有新消息，如果有的话就处理消息，否则就一直等待着。
+         
     作用：主要作用是将 一个任务切换 到 指定的线程 中去执行。
+    
         消息循环：循环取出 Message Queue 的 Message 
+        
         消息派发：将取出的 Message 交付给相应的 Handler
 
 ***ThreadLocal***
     定义：线程内部的数据存储
+    
     作用：负责存储和获取本线程的 Looper，可以在不同的线程中互不干扰地存储并提供数据，通过 ThreadLocal 可以获取每个线程的 Looper。
 
 
