@@ -53,7 +53,6 @@ Android的消息机制主要是指 Handler 的运行机制，Handler的运行机
 
 ***Message（消息）***
     定义：Handler 接收和处理的消息对象（Bean 对象）
-    
     作用：通信时相关信息的存放和传递
 
 ***MessageQueue（消息队列）***
@@ -67,7 +66,6 @@ Android的消息机制主要是指 Handler 的运行机制，Handler的运行机
     作用：
     
         负责发送 Message 到消息队列
-        
         处理 Looper 分派过来的 Message
 
 ***Looper（循环器）***
@@ -78,7 +76,6 @@ Android的消息机制主要是指 Handler 的运行机制，Handler的运行机
     作用：主要作用是将 一个任务切换 到 指定的线程 中去执行。
     
         消息循环：循环取出 Message Queue 的 Message 
-        
         消息派发：将取出的 Message 交付给相应的 Handler
 
 ***ThreadLocal***
@@ -99,7 +96,10 @@ Android 不建议在主线程中进行耗时的操作否则会导致程序无法
     首先，是这个 MessageQueen，MessageQueen 是一个消息队列，它可以存储 Handler 发送过来的消息，其内部提供了进队和出队的方法来管理这个消息
     队列，其出队和进队的原理是采用单链表的数据结构进行插入和删除的，即 enqueueMessage() 方法和 next()方法。
     这里提到的 Message，其实就是一个Bean 对象，里面的属性用来记录 Message 的各种信息。
-    然后，是这个 Looper，Looper 是一个循环器，它可以循环的取出 MessageQueen 中的 Message，其内部提供了 Looper 的初始化和循环出去Message 的方法，即 prepare() 方法和 loop() 方法。在 prepare()方法中，Looper会关联一个 MessageQueen，而且将 Looper 存进一个 ThreadLocal 中，在loop()方法中，通过 ThreadLocal 取出 Looper，使用MessageQueen 的next() 方法取出 Message 后，判断 Message 是否为空，如果是则 Looper 阻塞，如果不是，则通过 dispatchMessage() 方法分发该 Message 到 Handler 中，而 Handler 执行 handlerMessage() 方法，由于 handlerMessage() 方法是个空方法，这也是为什么需要在 Handler 中重写 handlerMessage()方法的原因。
+    然后，是这个 Looper，Looper 是一个循环器，它可以循环的取出 MessageQueen 中的 Message，其内部提供了 Looper 的初始化和循环出去Message 的方法，
+    即 prepare() 方法和 loop() 方法。在 prepare()方法中，Looper会关联一个 MessageQueen，而且将 Looper 存进一个 ThreadLocal 中，
+    在loop()方法中，通过 ThreadLocal 取出 Looper，使用MessageQueen 的next() 方法取出 Message 后，判断 Message 是否为空，如果是则 Looper 阻塞，如果不是，则通过 dispatchMessage() 方法分发该 Message 到 Handler 中，而 Handler 执行 handlerMessage() 方法，由于 handlerMessage() 方法是个空方法，
+    这也是为什么需要在 Handler 中重写 handlerMessage()方法的原因。
     这里要注意的是Looper 只能在一个线程中只能存在一个。
     这里提到的ThreadLocal，其实就是一个对象，用来在不同线程中存放对应线程的 Looper。
     最后，是这个Handler，Handler 是Looper 和MessageQueen 的桥梁，Handler 内部提供了发送 Message 的一系列方法，最终会通过 MessageQueen 的
