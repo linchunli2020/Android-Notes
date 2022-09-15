@@ -47,11 +47,10 @@ ACTION_POINTER_DOWN和ACTION_POINTER_UP，则得和ACTION_MASK相与才能得到
 
 2. View的事件分发
 
-事件方法：
+      事件方法：
 
-dispatchTouchEvent
-
-onTouchEvent
+            dispatchTouchEvent
+            onTouchEvent
 
 4.1 实例分析
 
@@ -500,13 +499,11 @@ onTouchEvent里面做的事情也不多，主要是分类处理各个不同的Ac
 
 3.ViewGroup事件分发
 
-事件方法：
+      事件方法：
 
-dispatchTouchEvent
-
-onInterceptTouchEvent
-
-onTouchEvent
+            dispatchTouchEvent
+            onInterceptTouchEvent
+            onTouchEvent
 
 3.1 实例分析
 
