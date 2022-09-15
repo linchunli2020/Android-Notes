@@ -46,7 +46,14 @@ ACTION_POINTER_DOWN和ACTION_POINTER_UP，则得和ACTION_MASK相与才能得到
 做完准备工作后开始正式对事件传递流程进行分析，先分析最上层的View如何处理事件。
 
 2. View的事件分发
-2.1 实例分析
+
+事件方法：
+
+dispatchTouchEvent
+
+onTouchEvent
+
+4.1 实例分析
 
 我们先看一下在我们的代码中事件会如何执行。自定义一个TestView
 
@@ -492,6 +499,14 @@ onTouchEvent里面做的事情也不多，主要是分类处理各个不同的Ac
 
 
 3.ViewGroup事件分发
+
+事件方法：
+
+dispatchTouchEvent
+
+onInterceptTouchEvent
+
+onTouchEvent
 
 3.1 实例分析
 
@@ -1110,6 +1125,8 @@ FrameLayout的dispatchTouchEvent(event)就是ViewGoup的dispatchTouchEvent(event
 
 
 转自：https://www.jianshu.com/p/bc4c9e5f4b1c
+
+补充：https://developer.aliyun.com/article/52855
 
 
 
