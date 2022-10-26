@@ -1,0 +1,6 @@
+ViewGroup作为一个父View，在分发事件时可以选择是否拦截并且要考虑到子View，而对于View来说，只需要处理好分发给自己的事件即可。
+
+1.ViewGroup中有onInterceptTouchEvent方法和requestDisallowInterceptTouchEvent方法，而View中没有。因此，ViewGroup可以主动或者被动的去拦截事件。
+
+2.ViewGroup中如果有子View的话，一般情况下ViewGroup都会将事件分发给每个子View。而View的事件分发一般是处理事件的过程。
+如果ViewGroup中没有子View，其事件分发过程就类似于View的事件分发过程了。
